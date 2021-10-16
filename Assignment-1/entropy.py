@@ -21,4 +21,9 @@ def get_entropy_by_pn(p, n):
     return - positive - negative
 
 
-print(get_entropy_by_pn(1, 0))
+def get_entropy_by_pn_rd(p, n, r=3):
+    return round(get_entropy_by_pn(p, n), r)
+
+
+entropy = get_entropy_by_pn_rd(1, 2)
+print(entropy)
