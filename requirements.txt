@@ -1,5 +1,6 @@
 sklearn
 matplotlib
+numpy
 pandas
 jupyterlab
 ipykernel
