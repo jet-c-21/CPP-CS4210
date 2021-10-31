@@ -4,3 +4,7 @@ numpy
 pandas
 jupyterlab
 ipykernel
+tensorflow
+pydot
+pydotplus
+graphviz
