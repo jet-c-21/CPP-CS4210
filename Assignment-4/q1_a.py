@@ -16,9 +16,22 @@ class Perceptron:
         'heaviside': heaviside.__get__(object, object)
     }
 
-    def __init__(self, lr=0.4, initial_weight=0.1, act_func='heaviside', x_b=1):
+    def __init__(self, lr=0.4, initial_weight=0.1, initial_weight_dict=None, act_func='heaviside', x_b=1):
+        """
+        initial_weight_dict = {
+            'xw': <list>, Example: [w_of_x1, w_of_x2, ..., w_of_xn]
+            'bw': <float>, Example: 0.1
+        }
+
+        :param lr:
+        :param initial_weight:
+        :param initial_weight_dict:
+        :param act_func:
+        :param x_b:
+        """
         self.lr = lr
         self.initial_weight = initial_weight
+        self.initial_weight_dict = initial_weight_dict
         self.act_func = act_func
         self.x_b = x_b
         self.w_b = initial_weight
@@ -36,6 +49,10 @@ class Perceptron:
             self.delta_w_ls.append(None)
             self.report_columns.append(f"x{i + 1}")
         self.report_columns.append('xb')
+
+        if self.initial_weight_dict:
+            self.w_ls = self.initial_weight_dict['xw']
+            self.w_b = self.initial_weight_dict['bw']
 
         for i in range(len(self.w_ls)):
             self.report_columns.append(f"w{i + 1}")
@@ -80,7 +97,7 @@ class Perceptron:
         ty_diff = gt - pred_y
 
         # update report
-        report_record = self._get_report_record(x, gt, z, pred_y, ty_diff)
+        report_record = self._get_report_record_and_update_dw(x, gt, z, pred_y, ty_diff)
         self.report.loc[len(self.report)] = report_record
 
         # update weights
@@ -90,7 +107,7 @@ class Perceptron:
 
         return ty_diff
 
-    def _get_report_record(self, x, gt, z, pred_y, ty_diff) -> list:
+    def _get_report_record_and_update_dw(self, x, gt, z, pred_y, ty_diff) -> list:
         """
         generate report record and update delta-weights at the same time
         - delta-weights : 1. self.delta_w_ls
@@ -171,6 +188,7 @@ class Perceptron:
 
 
 if __name__ == '__main__':
+    print('Example 1')
     train_X = [
         [20, 10],
         [80, 60],
@@ -182,3 +200,17 @@ if __name__ == '__main__':
     print(prcp.report)
     print(prcp.predict([[20, 50]])[0])
     print(prcp.predict([[20, 0]])[0])
+
+    print()
+    print('Example 2')
+    train_X = [
+        [-2, 4],
+        [1, 1],
+        [2, 4],
+    ]
+
+    train_y = [0, 1, 0]
+
+    pct = Perceptron(lr=0.1, initial_weight_dict={'xw': [-0.1, 0.1], 'bw': 0.1})
+    pct.fit(train_X, train_y)
+    print(pct.report)
