@@ -60,7 +60,6 @@ for r_idx, row in df.iterrows():
 
 # adding the populated list with multiple dictionaries to a data frame
 ohe_df = pd.DataFrame(encoded_val_ls)  # ohe_df = one-hot-encoding-DataFrame
-print(ohe_df)
 
 # calling the apriori algorithm informing some parameters
 freq_items = apriori(ohe_df, min_support=0.2, use_colnames=True, verbose=1)

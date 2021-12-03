@@ -28,7 +28,7 @@ X_test = np.array(df.values)[:, :64]  # getting the first 64 fields to form the 
 y_test = np.array(df.values)[:, -1]  # getting the last field to form the class label for test
 
 
-def get_clf_accuaracy(clf, X_test, y_test) -> float:
+def get_clf_accuracy(clf, X_test, y_test) -> float:
     correct_count = 0
     for x, ground_truth in zip(X_test, y_test):
         pred = clf.predict([x])[0]
@@ -88,7 +88,7 @@ for w in n:  # iterates over n (learning rate options)
             
             - to make a prediction do: clf.predict([x_testSample])
             """
-            acc = get_clf_accuaracy(clf, X_test, y_test)
+            acc = get_clf_accuracy(clf, X_test, y_test)
 
             """
             - check if the calculated accuracy is higher than the previously one 
