@@ -185,7 +185,19 @@ def k_means(pt_ls: list, c_ls: list):
         if need_update_c(c_ls, new_c_coord_ls):
             update_centroid_ls(c_ls, new_c_coord_ls)
         else:
-            print(f"The centroid will be the same in #{iteration + 1} iteration")
+            iteration += 1
+            print(f"The centroid will be the same in #{iteration} iteration")
+
+            iter_df, partition = get_iteration_df(pt_ls, c_ls)
+            # print(partition)
+            print_centroid_ls(f"{iteration}", c_ls)
+            print_iteration_table(f"#{iteration}", iter_df)
+
+            new_c_coord_ls = get_new_c_coord_ls(iter_df, pt_ls)
+            result = partition
+            sse = get_sse(partition, c_ls)
+            print(f"SSE : {sse} \n")
+
             return result
 
     return result
@@ -193,21 +205,18 @@ def k_means(pt_ls: list, c_ls: list):
 
 if __name__ == '__main__':
     point_ls = [
-        Point('A1', 1, 7),
-        Point('A2', 2, 7),
-        Point('A3', 2, 6),
-        Point('A4', 6, 3),
-        Point('A4', 6, 2),
-        # Point('A5', 7, 5),
-        # Point('A6', 6, 4),
-        # Point('A7', 1, 2),
-        # Point('A8', 4, 9),
+        Point('A1', 2, 8),
+        Point('A2', 6, 8),
+        Point('A3', 4, 5),
+        Point('A4', 4, 4),
+        Point('A5', 4, 0),
+
     ]
 
     centroid_ls = [
-        Point('C1', 1, 7),  # A1
-        Point('C2', 2, 7),  # A2
-        # Point('C3', 1, 2),  # A7
+        Point('C1', 2, 8),  # A1
+        Point('C2', 4, 4),  # A4
+
     ]
 
     K = len(centroid_ls)
